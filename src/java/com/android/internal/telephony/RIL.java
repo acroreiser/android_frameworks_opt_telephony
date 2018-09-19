@@ -196,6 +196,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
 
     final Integer mPhoneId;
     private List<String> mOldRilFeatures;
+    private boolean mUseOldMncMccFormat;
 
     private static final String PROPERTY_IS_VONR_ENABLED = "persist.radio.is_vonr_enabled_";
 
@@ -1055,6 +1056,9 @@ public class RIL extends BaseCommands implements CommandsInterface {
 
         final String oldRilFeatures = SystemProperties.get("ro.telephony.ril.config", "");
         mOldRilFeatures = Arrays.asList(oldRilFeatures.split(","));
+
+        mUseOldMncMccFormat = SystemProperties.getBoolean(
+                "ro.telephony.use_old_mnc_mcc_format", false);
 
         TelephonyManager tm = (TelephonyManager) context.getSystemService(
                 Context.TELEPHONY_SERVICE);
@@ -2417,7 +2421,9 @@ public class RIL extends BaseCommands implements CommandsInterface {
                 riljLog(rr.serialString() + "> " + RILUtils.requestToString(rr.mRequest)
                         + " operatorNumeric = " + operatorNumeric + ", ran = " + ran);
             }
-
+            if (mUseOldMncMccFormat && !TextUtils.isEmpty(operatorNumeric)) {
+                operatorNumeric += "+";
+            }
             try {
                 networkProxy.setNetworkSelectionModeManual(rr.mSerial,
                         RILUtils.convertNullToEmptyString(operatorNumeric), ran);
