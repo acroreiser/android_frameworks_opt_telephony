@@ -1418,11 +1418,11 @@ public class SubscriptionManagerService extends ISub.Stub {
         int simState = mSimState[phoneId];
         log("updateSubscription: phoneId=" + phoneId + ", simState="
                 + TelephonyManager.simStateToString(simState));
-        for (UiccSlot slot : mUiccController.getUiccSlots()) {
-            if (slot != null) {
-                log("  " + slot);
-            }
-        }
+//        for (UiccSlot slot : mUiccController.getUiccSlots()) {
+//            if (slot != null) {
+//                log("  " + slot);
+//            }
+//        }
 
         if (simState == TelephonyManager.SIM_STATE_ABSENT) {
             SatelliteController satelliteController = SatelliteController.getInstance();
