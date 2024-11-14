@@ -1037,6 +1037,9 @@ public class UiccController extends Handler {
 
         IccCardStatus status = (IccCardStatus)ar.result;
 
+        IccSlotPortMapping slotPortMapping = new IccSlotPortMapping();
+        status.mSlotPortMapping = slotPortMapping;
+
         logWithLocalLog("onGetIccCardStatusDone: phoneId-" + index + " IccCardStatus: " + status);
 
         int slotId = status.mSlotPortMapping.mPhysicalSlotIndex;
